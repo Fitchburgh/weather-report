@@ -1,7 +1,54 @@
-require_relative 'cache'
-require 'net/http'
+require_relative 'lib/cache'
+require 'httparty'
 require 'json'
 
+city_state = ARGV
+
 def get_json(url)
-  JSON.parse(Net::HTTP.get(URI(url)))
+  HTTParty.get(url).parsed_response
 end
+
+# hourly = get_json("http://api.wunderground.com/api/a2181b0f1e781977/hourly/q/#{city_state[1]}/#{city_state[0]}.json")
+#
+# time_of_day = hourly['hourly_forecast'].first['FCTTIME']['pretty']
+# english_temp = hourly['hourly_forecast'].first['temp']['english']
+# humidity = hourly['hourly_forecast'].first['humidity']
+# skies = hourly['hourly_forecast'].first['condition']
+#
+# puts "Date: #{time_of_day}\nTemp: #{english_temp}\nHumidity: #{humidity}%" \
+#   "\nSkies: #{skies}"
+
+# hurricane = get_json('http://api.wunderground.com/api/a2181b0f1e781977/currenthurricane/view.json')
+# hurricane_name = hurricane['currenthurricane'].first['stormInfo']['stormName']
+# hurricane_time = hurricane['currenthurricane'].first['Current']['TimeGMT']['pretty']
+# heading = hurricane['currenthurricane'].first['Current']['Movement']['Text']
+# speed = hurricane['currenthurricane'].first['Current']['WindSpeed']['Mph']
+# lat = hurricane['currenthurricane'].first['Current']['lat']
+# long = hurricane['currenthurricane'].first['Current']['lon']
+#
+# puts "#{hurricane_name} is a'comin' for us!\nBearing: #{heading} at #{speed}" \
+#   "from \nIt's #{hurricane_time}, and the storms at #{lat}/#{lon}\n" \
+#   ' better get to cover!'
+
+# sun_stats = get_json("http://api.wunderground.com/api/a2181b0f1e781977/astronomy/q/#{city_state[1]}/#{city_state[0]}.json")
+# sunrise_hr = sun_stats['moon_phase']['sunrise']['hour']
+# sunrise_min = sun_stats['moon_phase']['sunrise']['minute']
+# sunset_hr = sun_stats['moon_phase']['sunset']['hour']
+# sunset_min = sun_stats['moon_phase']['sunset']['minute']
+#
+# puts "Sunrise: #{sunrise_hr}:#{sunrise_min}\nSunset: #{sunset_hr}:#{sunset_min}"
+
+full_forecast = get_json("http://api.wunderground.com/api/a2181b0f1e781977/forecast10day/q/#{city_state[1]}/#{city_state[0]}.json")
+
+ten_day = full_forecast['forecast']['txt_forecast']['forecastday']
+
+
+ten_day.each do |weekly|
+  puts "On #{weekly['title']}: #{weekly['fcttext']}\n"
+end
+
+# http://api.wunderground.com/api/a2181b0f1e781977/planner_07010731/q/CA/San_Francisco.json
+  #
+
+# http://api.wunderground.com/api/a2181b0f1e781977/forecast10day/q/CA/San_Francisco.json
+  #
