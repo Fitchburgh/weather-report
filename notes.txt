@@ -1,4 +1,4 @@
-
+# Here's where I started.  After two phases of refactoring I'm at OOP.
 # hourly = get_json("http://api.wunderground.com/api/a2181b0f1e781977/hourly/q/#{city_state[1]}/#{city_state[0]}.json")
 #
 # time_of_day = hourly['hourly_forecast'].first['FCTTIME']['pretty']

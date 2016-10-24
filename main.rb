@@ -5,6 +5,11 @@ def main
   city_state = ARGV
   forecast = WeatherForecast.new(city_state)
 
+  # forecast.each do |key, value|
+  #   File.open('cache/cache.txt', 'a') { |file| file.puts key => value }
+  #   # probably should do something like Time.now and check.
+  # end
+
   alerts = forecast.alerts
   if alerts == []
     puts "No alerts for #{city_state[0]}.\n\n\n"
